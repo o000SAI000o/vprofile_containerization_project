@@ -1,0 +1,28 @@
+db  =>  Dockerfile
+	ContainerName:vprodb01
+  	ports: 3306:3306
+  	password: MYSQL_ROOT_PASSWORD
+	volume: /var/lib/MySQL
+
+app => Dockerfile
+	ContainerName: vproapp
+	Ports: 8080:8080
+	Volumes: /usr/local/tomcat/webapps
+	
+
+web => Dockerfile
+	ContainerName: vproweb
+	Ports: 80:80
+
+mc => Dockerfile
+	Image
+	ContainerName: vprocache01
+	ports: 11211:11211
+
+rmq => Dockerfile
+	Image 
+	ContainerName: vpromq01
+	ports: 5672:5672
+	Variables:
+		user: guest
+		password: guest

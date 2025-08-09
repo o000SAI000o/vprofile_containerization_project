@@ -1,0 +1,55 @@
+services:
+  vprodb01:
+    build:
+      context: ./Docker-files/db
+    image: vishu1101/vprodb01
+    container_name: vprodb01
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=your_password_here
+      - MYSQL_DATABASE=your_db
+      - MYSQL_USER=username
+      - MYSQL_PASSWORD=your_password_here  # Set MySQL user password
+    volumes:
+      - vprodbdata:/var/lib/mysql
+
+  vprocache01:
+    image: memcached
+    container_name: vprocache01
+    ports:
+      - "11211:11211"
+
+  vpromq01:
+    image: rabbitmq
+    container_name: vpromq01
+    ports:
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - vpromqdata:/var/lib/rabbitmq
+
+  vproapp01:
+    build:
+      context: ./Docker-files/app
+    image: vishu1101/vproapp01
+    container_name: vproapp01
+    ports:
+      - "8080:8080"
+    volumes:
+      - vproappdata:/usr/local/tomcat/webapps
+
+  vproweb01:
+    build:
+      context: ./Docker-files/web
+    image: vishu1101/vproweb01
+    container_name: vproweb01
+    ports:
+      - "80:80"
+
+volumes:
+  vprodbdata: {}
+  vproappdata: {}
+  vpromqdata: {}
